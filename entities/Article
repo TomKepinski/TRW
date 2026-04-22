@@ -1,0 +1,86 @@
+{
+  "name": "Article",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Article title"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly identifier"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "stations_routes",
+        "trains_rolling_stock",
+        "game_mechanics_guides",
+        "general"
+      ],
+      "description": "Article category"
+    },
+    "content": {
+      "type": "string",
+      "description": "Article content in markdown"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Short summary/description"
+    },
+    "cover_image": {
+      "type": "string",
+      "description": "Cover image URL"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags for the article"
+    },
+    "is_published": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the article is published"
+    },
+    "views": {
+      "type": "number",
+      "default": 0,
+      "description": "View count"
+    }
+  },
+  "required": [
+    "title",
+    "category"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "data.is_published": true
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
